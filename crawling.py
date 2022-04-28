@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
+'''
 #엑셀에서 데이터 추출(형식 : ㅇㅇ동 ㅁㅁ식당)
 filename = '관악구레스토랑.xlsx'
 restaurant_file = openpyxl.load_workbook(filename)
@@ -23,8 +24,9 @@ for restaurant in restaurants.iter_rows(min_row=3):
         ])
 
 print(data[0])
+'''
 
-#data = [['봉천동','삼우식당','주소1'],['중랑구','커피나무','주소2'],["숭실대","마루스시",'주소3']]
+data = [['봉천동','삼우식당','주소1'],['중랑구','커피나무','주소2'],["숭실대","마루스시",'주소3']]
 
 json_data = {}
 file_path = "./restaurants.json"
@@ -34,7 +36,7 @@ options.add_experimental_option("excludeSwitches", ["enable-logging"])
 driver = webdriver.Chrome('./100./chromedriver',options=options)
 
 '''
-json에서 값 가져오는 코드
+#json에서 값 가져오는 코드
 with open(file_path,'r') as file:
     test_data = json.load(file)
 print(test_data)
@@ -97,6 +99,7 @@ for i in data:
         content["주소"] = i[2]
         if time == '시간 정보 없음':
             print("시간 정보 없음")
+            content["영업 시간"] = "시간 정보 없음"
         else:
             if detailTime:
                 time = []
@@ -110,6 +113,7 @@ for i in data:
 
         if not menus_dic:
             print("메뉴 정보 없음")
+            content["메뉴"] = "메뉴 정보 없음"
         else:
             for i in menus_dic:
                 print("key: {}, value: {}".format(i, menus_dic[i]))
