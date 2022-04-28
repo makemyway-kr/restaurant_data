@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 #엑셀에서 데이터 추출(형식 : ㅇㅇ동 ㅁㅁ식당)
-filename = '관악구레스토랑.xlsx'
+filename = '동작구레스토랑.xlsx'
 restaurant_file = openpyxl.load_workbook(filename)
 restaurants = restaurant_file.worksheets[0]
 data = []
@@ -16,7 +16,7 @@ data = []
 for restaurant in restaurants.iter_rows(min_row=3):
     address = restaurant[16].value
     if address is not None:
-        if address.split('(')[1].split(')')[0] == "봉천동":
+        if address.split('(')[1].split(')')[0] == "상도동": #구 필터링
             data.append([
                 restaurant[16].value.split('(')[1].split(')')[0],
                 restaurant[18].value,
