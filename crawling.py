@@ -7,7 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-'''
 #엑셀에서 데이터 추출(형식 : ㅇㅇ동 ㅁㅁ식당)
 filename = '관악구레스토랑.xlsx'
 restaurant_file = openpyxl.load_workbook(filename)
@@ -17,16 +16,14 @@ data = []
 for restaurant in restaurants.iter_rows(min_row=3):
     address = restaurant[16].value
     if address is not None:
-        data.append([
-            restaurant[16].value.split('(')[1].split(')')[0],
-            restaurant[18].value,
-            restaurant[16].value
-        ])
+        if address.split('(')[1].split(')')[0] == "봉천동":
+            data.append([
+                restaurant[16].value.split('(')[1].split(')')[0],
+                restaurant[18].value,
+                restaurant[16].value
+                ])
 
-print(data[0])
-'''
-
-data = [['봉천동','삼우식당','주소1'],['중랑구','커피나무','주소2'],["숭실대","마루스시",'주소3']]
+#data = [['봉천동','삼우식당','주소1'],['중랑구','커피나무','주소2'],["숭실대","마루스시",'주소3']]
 
 json_data = {}
 file_path = "./restaurants.json"
@@ -49,7 +46,7 @@ for i in data:
         content = {}
         kakao_map_search_url = f"https://map.kakao.com/?q={keyword}"
         driver.get(kakao_map_search_url)
-        driver.implicitly_wait(time_to_wait=3)
+        driver.implicitly_wait(time_to_wait=2)
 
         #rateNum = driver.find_element(by='xpath',value = '//*[@id="info.search.place.list"]/li[1]/div[4]/span[1]/em').text
         #periodTime = driver.find_element(by='xpath',value = '//*[@id="info.search.place.list"]/li[1]/div[5]/div[3]/p/a').text
@@ -65,7 +62,7 @@ for i in data:
             pass
 
         try:
-            callNum = driver.find_element(by='xpath',value = '//*[@id="mArticle"]/div[1]/div[2]/div[3]/div/div[1]/span/span[1]').text
+            callNum = driver.find_element(by=By.CLASS_NAME,value = 'txt_contact').text
         except Exception as e1:
             callNum = "전화번호 없음"
             pass
