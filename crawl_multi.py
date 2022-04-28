@@ -17,7 +17,8 @@ def crawl(filename):
     for restaurant in restaurants.iter_rows(min_row=3):
         address = restaurant[16].value
         if address is not None:
-            if address.split('(')[1].split(')')[0] == "상도동": #동 필터링
+            print(address)
+            if "상도동" in address: #동 필터링
                 data.append([
                     restaurant[16].value.split('(')[1].split(')')[0],
                     restaurant[18].value,
@@ -31,7 +32,7 @@ def crawl(filename):
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    driver = webdriver.Chrome('./100./chromedriver',options=options)
+    driver = webdriver.Chrome('./chromedriver',options=options)
 
     '''
     #json에서 값 가져오는 코드
