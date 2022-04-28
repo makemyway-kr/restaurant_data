@@ -18,7 +18,7 @@ def crawl(filename):
         address = restaurant[16].value
         if address is not None:
             print(address)
-            if "상도동" in address: #동 필터링
+            if "창천동" in address: #동 필터링
                 data.append([
                     restaurant[16].value.split('(')[1].split(')')[0],
                     restaurant[18].value,
@@ -28,7 +28,7 @@ def crawl(filename):
     #data = [['봉천동','삼우식당','주소1'],['중랑구','커피나무','주소2'],["숭실대","마루스시",'주소3']]
 
     json_data = {}
-    file_path = "./restaurants"+filename+".json"
+    file_path = "./restaurants"+"서대문"+filename[8]+".json"
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -135,7 +135,7 @@ def crawl(filename):
 
 if __name__ == "__main__":
     start_time = time.time()
-    f_list = ["동작구레스토랑1.xlsx","동작구레스토랑2.xlsx","동작구레스토랑3.xlsx"]
+    f_list = ["서대문구레스토랑1.xlsx","서대문구레스토랑2.xlsx","서대문구레스토랑3.xlsx"]
     pool = multiprocessing.Pool(processes=3)
     pool.map(crawl,f_list)
     pool.close()
