@@ -118,7 +118,7 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
             elif j[0] == '영업 시간':
                 day = '월,화,수,목,금,토,일'
                 if j[1] == '시간 정보 없음':
-                    rest_list.append('날짜X')
+                    rest_list.append('X')
                 elif j[1][0].find('매일') != -1:
                     rest_list.append(day)
                 elif j[1][0].split()[0].find('~') != -1:
@@ -131,15 +131,15 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
                     rest_list.append(day)
 
                 if j[1] == '시간 정보 없음':
-                    rest_list.append('시간X')
-                    rest_list.append('시간X')
+                    rest_list.append('X')
+                    rest_list.append('X')
                 else:
                     temp = re.findall('[0-9]+:[0-9]+', j[1][0])
                     #print(j[1][0])
                     #print(temp)
                     rest_list.append(temp[0])
                     if len(temp) == 1:
-                        rest_list.append('재료 소진시')
+                        rest_list.append('X')
                     else:
                         rest_list.append(temp[1])
                     #rest_list.append(temp[1])
