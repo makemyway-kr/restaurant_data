@@ -19,7 +19,6 @@ def ui():
             break
         else:
             to_erase.append(data[1][i])
-    savefile = input('결과를 저장할 파일명을 입력하세요: ')
     data[1] = [ data[1][i] for i in range (len(data[1])) if data[1][i] not in to_erase] 
     savefile = input('결과를 저장할 파일명을 입력하세요: ')
     with open ('./data/'+savefile,'w',encoding='utf-8') as f:
