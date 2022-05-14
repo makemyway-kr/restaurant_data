@@ -14,11 +14,11 @@ def ui():
     for i in range(start,len(data[1])):
         selection = input("해당 키워드를 삭제할까요? (y/n) , 입력없음은 n처리. c 는 중단하고 임시저장.\n "+data[1][i] + ':')
         if selection == 'y':
-            data[0] = data[1][i]
+            to_erase.append(data[1][i])
         elif selection == "c":
             break
         else:
-            to_erase.append(data[1][i])
+            data[0] = data[1][i]
     data[1] = [ data[1][i] for i in range (len(data[1])) if data[1][i] not in to_erase] 
     savefile = input('결과를 저장할 파일명을 입력하세요: ')
     with open ('./data/'+savefile,'w',encoding='utf-8') as f:
