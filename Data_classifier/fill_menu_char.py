@@ -11,7 +11,7 @@ def get_keyword_charac():
         key_charac.append(['isSpicy',row[2].value])
         key_charac.append(['isSweet',row[3].value])
         key_charac.append(['isHot',row[4].value])
-        key_charac.append(['isMeet',row[5].value])
+        key_charac.append(['isMeat',row[5].value])
         key_charac.append(['isNoodle',row[6].value])
         key_charac.append(['isRice',row[7].value])
         key_charac.append(['isBread',row[8].value])
@@ -33,7 +33,7 @@ def fill_charac(menu, menu_keys):
     for m in menu:
         has_key = False
         charac = []
-        charac2 = [['isSoup',False],['isSpicy',False],['isSweet',False],['isHot',False],['isMeet',False],['isNoodle',False],['isRice',False],['isBread',False]]
+        charac2 = [['isSoup',False],['isSpicy',False],['isSweet',False],['isHot',False],['isMeat',False],['isNoodle',False],['isRice',False],['isBread',False]]
         for k in menu_keys.keys():
             if m.find(k) != -1:
                 has_key = True
@@ -50,10 +50,28 @@ def fill_charac(menu, menu_keys):
                 if i[0] == j:
                     i[1] = True
         menu_charac[m] = charac2
-    pprint(menu_charac)
+    #pprint(menu_charac)
+    return menu_charac
+
+def extract_menu(menu_charac):
+    write_wb = openpyxl.load_workbook('../Datasets/menu_data.xlsx', data_only=True)
+    write_ws = write_wb.create_sheet('menu2')
+
+    write_ws = write_wb.active
+    write_ws = write_wb['menu2']
+    write_ws.append(['id','name','isSoup','isSpicy','isSweet','isHot','isMeat','isNoodle','isRice','isBread'])
+
+    t=0
+    for m in menu_charac.keys():
+        t += 1
+        print(str(t) + ' ' + m + ' ' + str(menu_charac[m][0][1])+ ' ' + str(menu_charac[m][1][1])+ ' ' + str(menu_charac[m][2][1])+ ' ' + str(menu_charac[m][3][1])+ ' ' + str(menu_charac[m][4][1])+ ' ' + str(menu_charac[m][5][1])+ ' ' + str(menu_charac[m][6][1]) + ' ' + str(menu_charac[m][7][1]))
+        write_ws.append([t,m,menu_charac[m][0][1],menu_charac[m][1][1],menu_charac[m][2][1],menu_charac[m][3][1],menu_charac[m][4][1],menu_charac[m][5][1],menu_charac[m][6][1],menu_charac[m][7][1]])
+
+    write_wb.save('../Datasets/menu_data.xlsx')
 
 
 if __name__ == "__main__":
     menu_keys = get_keyword_charac()
     menu = get_menu()
-    fill_charac(menu, menu_keys)
+    menu_charac = fill_charac(menu, menu_keys)
+    extract_menu(menu_charac)
