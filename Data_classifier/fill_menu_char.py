@@ -44,7 +44,7 @@ def fill_charac(menu, menu_keys):
                 charac = list(charac_s)
                 #print(charac)
         #if has_key == False:
-        #    print(m)
+            #print(m)
         for i in charac2:
             for j in charac:
                 if i[0] == j:
