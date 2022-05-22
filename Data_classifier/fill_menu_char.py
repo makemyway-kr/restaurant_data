@@ -2,7 +2,7 @@ import openpyxl
 from pprint import pprint
 
 def get_keyword_charac():
-    load_wb = openpyxl.load_workbook('./Menu_charac/data/menu_key.xlsx', data_only=True)
+    load_wb = openpyxl.load_workbook('../DB_cell/menu_key.xlsx', data_only=True)
     load_ws = load_wb['menu_key']
     menu_keys = {}
     for row in load_ws.iter_rows(min_row=2):
@@ -20,7 +20,7 @@ def get_keyword_charac():
     return menu_keys
 
 def get_menu():
-    load_wb = openpyxl.load_workbook('../Datasets/menu_data.xlsx', data_only=True)
+    load_wb = openpyxl.load_workbook('../DB_cell/menu_data.xlsx', data_only=True)
     load_ws = load_wb['menu']
     menu = []
     for row in load_ws['B']:
@@ -54,7 +54,7 @@ def fill_charac(menu, menu_keys):
     return menu_charac
 
 def extract_menu(menu_charac):
-    write_wb = openpyxl.load_workbook('../Datasets/menu_data.xlsx', data_only=True)
+    write_wb = openpyxl.load_workbook('../DB_cell/menu_data.xlsx', data_only=True)
     write_ws = write_wb.create_sheet('menu2')
 
     write_ws = write_wb.active
@@ -67,7 +67,7 @@ def extract_menu(menu_charac):
         print(str(t) + ' ' + m + ' ' + str(menu_charac[m][0][1])+ ' ' + str(menu_charac[m][1][1])+ ' ' + str(menu_charac[m][2][1])+ ' ' + str(menu_charac[m][3][1])+ ' ' + str(menu_charac[m][4][1])+ ' ' + str(menu_charac[m][5][1])+ ' ' + str(menu_charac[m][6][1]) + ' ' + str(menu_charac[m][7][1]))
         write_ws.append([t,m,menu_charac[m][0][1],menu_charac[m][1][1],menu_charac[m][2][1],menu_charac[m][3][1],menu_charac[m][4][1],menu_charac[m][5][1],menu_charac[m][6][1],menu_charac[m][7][1]])
 
-    write_wb.save('../Datasets/menu_data.xlsx')
+    write_wb.save('../DB_cell/menu_data.xlsx')
 
 
 if __name__ == "__main__":

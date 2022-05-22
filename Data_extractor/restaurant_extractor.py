@@ -44,7 +44,7 @@ def extract_menu(dict_of_menu):
         menu_dict[i] = t
         write_ws.append([t,i])
 
-    write_wb.save('../Datasets/menu_data.xlsx')
+    write_wb.save('../DB_cell/menu_data.xlsx')
     return menu_dict
 
 def extract_address(dict_of_res):
@@ -80,14 +80,14 @@ def extract_address(dict_of_res):
                 temp[5] = u.strip(',')
                 break;
             else:
-                temp[5] = 'x'
+                temp[5] = 'null'
         a = temp[4]
         temp[4] = temp[5]
         temp[5] = a
         #print(str(t) + ' ' + temp[0] + ' ' + temp[1] + ' ' + temp[2] + ' ' + temp[3].strip(',') + ' ' + temp[4] + ' ' + temp[5])
         address_dict[j] = t
         write_ws.append([t, temp[0], temp[1], temp[2], temp[3].strip(','), temp[4], temp[5]])
-    write_wb.save('../Datasets/address_data.xlsx')
+    write_wb.save('../DB_cell/address_data.xlsx')
     return address_dict
 
 def extract_restaurant(dict_of_res, menu_dict, address_dict):
@@ -108,7 +108,7 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
                 rest_list.append(j[1])
             elif j[0] == "대표메뉴":
                 if j[1] == '대표메뉴 없음':
-                    rest_list.append(0)
+                    rest_list.append('null')
                 else:
                     rest_list.append(menu_dict[j[1]])
             elif j[0] == "주소":
@@ -118,7 +118,7 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
             elif j[0] == '영업 시간':
                 day = '월,화,수,목,금,토,일'
                 if j[1] == '시간 정보 없음':
-                    rest_list.append('X')
+                    rest_list.append('null')
                 elif j[1][0].find('매일') != -1:
                     rest_list.append(day)
                 elif j[1][0].split()[0].find('~') != -1:
@@ -131,15 +131,15 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
                     rest_list.append(day)
 
                 if j[1] == '시간 정보 없음':
-                    rest_list.append('X')
-                    rest_list.append('X')
+                    rest_list.append('null')
+                    rest_list.append('null')
                 else:
                     temp = re.findall('[0-9]+:[0-9]+', j[1][0])
                     #print(j[1][0])
                     #print(temp)
                     rest_list.append(temp[0])
                     if len(temp) == 1:
-                        rest_list.append('X')
+                        rest_list.append('null')
                     else:
                         rest_list.append(temp[1])
                     #rest_list.append(temp[1])
@@ -148,7 +148,7 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
         write_ws.append(rest_list)
         print(rest_list)
 
-    write_wb.save('../Datasets/restaurant_data.xlsx')
+    write_wb.save('../DB_cell/restaurant_data.xlsx')
 
 
 if __name__ == "__main__":
