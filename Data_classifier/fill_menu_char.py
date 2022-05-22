@@ -31,12 +31,12 @@ def get_menu():
 def fill_charac(menu, menu_keys):
     menu_charac = {}
     for m in menu:
-        has_key = False
+        has_key = 0
         charac = []
-        charac2 = [['isSoup',False],['isSpicy',False],['isSweet',False],['isHot',False],['isMeat',False],['isNoodle',False],['isRice',False],['isBread',False]]
+        charac2 = [['isSoup',0],['isSpicy',0],['isSweet',0],['isHot',0],['isMeat',0],['isNoodle',0],['isRice',0],['isBread',0]]
         for k in menu_keys.keys():
             if m.find(k) != -1:
-                has_key = True
+                has_key = 1
                 for i in menu_keys[k]:
                     if i[1] == 1:
                         charac.append(i[0])
@@ -48,9 +48,9 @@ def fill_charac(menu, menu_keys):
         for i in charac2:
             for j in charac:
                 if i[0] == j:
-                    i[1] = True
+                    i[1] = 1
         menu_charac[m] = charac2
-    #pprint(menu_charac)
+    pprint(menu_charac)
     return menu_charac
 
 def extract_menu(menu_charac):
@@ -74,4 +74,4 @@ if __name__ == "__main__":
     menu_keys = get_keyword_charac()
     menu = get_menu()
     menu_charac = fill_charac(menu, menu_keys)
-    extract_menu(menu_charac)
+    #extract_menu(menu_charac)
