@@ -114,9 +114,9 @@ def extract_restaurant(dict_of_res, menu_dict, address_dict):
             elif j[0] == "주소":
                 rest_list.append(address_dict[j[1]])
             elif j[0] == "프랜차이즈":
-                if j[1] == 'True'
+                if j[1] == 'True':
                     rest_list.append('1')
-                else
+                else:
                     rest_list.append('0')
             elif j[0] == '영업 시간':
                 day = '월,화,수,목,금,토,일'

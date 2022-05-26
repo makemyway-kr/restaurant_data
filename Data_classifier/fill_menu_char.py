@@ -74,4 +74,4 @@ if __name__ == "__main__":
     menu_keys = get_keyword_charac()
     menu = get_menu()
     menu_charac = fill_charac(menu, menu_keys)
-    #extract_menu(menu_charac)
+    extract_menu(menu_charac)
