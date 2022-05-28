@@ -57,14 +57,14 @@ def fill_charac(menu, menu_keys):
                 charac_s = set(charac)
                 charac = list(charac_s)
                 #print(charac)
-        if has_key == False:
-            print(m)
+        #if has_key == False:
+            #print(m)
         for i in charac2:
             for j in charac:
                 if i[0] == j:
                     i[1] = 1
         menu_charac[m] = charac2
-    #pprint(menu_charac)
+    pprint(menu_charac)
     return menu_charac
 
 def extract_menu(menu_charac):
@@ -87,4 +87,4 @@ if __name__ == "__main__":
     menu_keys = get_keyword_charac()
     menu = get_extra_menu()
     menu_charac = fill_charac(menu, menu_keys)
-    #extract_menu(menu_charac)
+    extract_menu(menu_charac)
