@@ -62,6 +62,6 @@ def extract_extra_key(extra_keys):
 
 if __name__ == "__main__":
     extra_menus = filtering_top_menu()
-    extra_keys = get_extra_key()
+    #extra_keys = get_extra_key()
     extract_all_menu(extra_menus)
-    extract_extra_key(extra_keys)
+    #extract_extra_key(extra_keys)

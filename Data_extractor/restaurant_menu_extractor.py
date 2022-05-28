@@ -65,4 +65,4 @@ if __name__ == "__main__":
     restaurant = get_restaurant()
     restaurant = numbering_restaurant(restaurant)
     restaurant_menu = pairing_restaurant_menu(restaurant, menu)
-    extract_restaurant_menu(restaurant_menu)
+    #extract_restaurant_menu(restaurant_menu)
