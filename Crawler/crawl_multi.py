@@ -10,7 +10,7 @@ import time
 import multiprocessing
 #엑셀에서 데이터 추출(형식 : ㅇㅇ동 ㅁㅁ식당)
 def crawl(filename):
-    restaurant_file = openpyxl.load_workbook(filename)
+    restaurant_file = openpyxl.load_workbook(filenakme)
     restaurants = restaurant_file.worksheets[0]
     data = []
 
