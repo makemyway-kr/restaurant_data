@@ -19,7 +19,7 @@ def get_restaurant_info():
     load_wb = openpyxl.load_workbook('../DB_cell/restaurant_data.xlsx', data_only=True)
     load_ws = load_wb['restaurant']
     for row in load_ws.iter_rows(min_row=2):
-        restaurant_data.append([row[1].value,row[3].value]) #식당명, 주소Id
+        restaurant_data.append([row[1].value,row[3].value,row[0].value]) #식당명, 주소Id,
 
     load_wb2 = openpyxl.load_workbook('../DB_cell/address_data.xlsx', data_only=True)
     load_ws2 = load_wb2['address']
@@ -29,14 +29,24 @@ def get_restaurant_info():
     for r in restaurant_data:
         for a in address_data:
             if r[1] == a[0]:
-                data.append(a[1] + ' ' + r[0])
-                break
+                if a[1] == '관악구':
+                    data.append([r[2],'봉천동 ' + r[0]])
+                    break
+                elif a[1] == '서대문구':
+                    data.append([r[2],'창천동 ' + r[0]])
+                    break
+                elif a[1] == '동작구':
+                    data.append([r[2],'상도동 ' + r[0]])
+                    break
     #pprint(data)
     return data
 
+def list_chunk(lst, n):
+    return [lst[i:i+n] for i in range(0, len(lst), n)]
+
 def save_images(images, save_path):
     try:
-        for index, image in enumerate(images[:10]):
+        for index, image in enumerate(images):
             print(index)
             src = image.get_attribute('src')
             t = urlopen(src).read()
@@ -63,7 +73,7 @@ def crawl_restaurant_image(restaurants):
             driver.get("https://naver.com")
             driver.implicitly_wait(time_to_wait=2)
             search_box = driver.find_element(by=By.ID, value = "query")
-            search_box.send_keys(r)
+            search_box.send_keys(r[1])
             search_box.send_keys(Keys.ENTER)
             driver.implicitly_wait(time_to_wait=2)
 
@@ -81,7 +91,7 @@ def crawl_restaurant_image(restaurants):
                 t = img_type1.text
                 img_type1.click()
 
-                save_path = "../restaurant_image/" + r + "/" + t + "/"
+                save_path = "../restaurant_image/" + r[1] + '_' + str(r[0]) + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -93,7 +103,7 @@ def crawl_restaurant_image(restaurants):
                 t = img_type2.text
                 img_type2.click()
 
-                save_path = "../restaurant_image/" + r + "/" + t + "/"
+                save_path = "../restaurant_image/" + r[1] + '_' + str(r[0]) + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -106,7 +116,7 @@ def crawl_restaurant_image(restaurants):
                 t = img_type3.text
                 img_type2.click()
 
-                save_path = "../restaurant_image/" + r + "/" + t + "/"
+                save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -121,12 +131,19 @@ def crawl_restaurant_image(restaurants):
             driver.switch_to.window(driver.window_handles[0]);
 
         except Exception as e1:
-            print(e1)
+            #print(e1)
             print(r + " 정보 없음")
             #driver.switch_to.window(driver.window_handles[0]);
-            #pass
+            pass
 
 if __name__ == '__main__':
-    restaurants = ["동작구 마루스시", "동작구 내가 찜한 찜닭", " 동작구 맘스터치"];
-    #restaurants = get_restaurant_info()
-    crawl_restaurant_image(restaurants)
+    restaurants = get_restaurant_info()
+    restaurants_chunked = list_chunk(restaurants,837)
+    start_time = time.time()
+    f_list = ["서대문구레스토랑1.xlsx","서대문구레스토랑2.xlsx","서대문구레스토랑3.xlsx"]
+    pool = multiprocessing.Pool(processes=3)
+    pool.map(crawl_restaurant_image,restaurants_chunked)
+    pool.close()
+    pool.join()
+    print(time.time()-start_time)
+    #crawl_restaurant_image(restaurants)
