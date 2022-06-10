@@ -110,20 +110,43 @@ def crawl_restaurant_image(restaurants):
             except Exception as e2:
                 pass
 
-            '''
+
             try:
-                img_type3 = driver.find_element(by='xpath',value = '//*[@id="app-root"]/div/div/div/div[7]/div[2]/div/div/div/div/div[5]/a')
+                img_type3 = driver.find_element(by='xpath',value = '//*[@id="app-root"]/div/div/div/div[7]/div[2]/div/div/div/div/div[3]/a')
                 t = img_type3.text
-                img_type2.click()
+                img_type3.click()
 
                 save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
             except Exception as e2:
-                print(e2)
                 pass
-            '''
+
+            try:
+                img_type4 = driver.find_element(by='xpath',value = '//*[@id="app-root"]/div/div/div/div[7]/div[2]/div/div/div/div/div[4]/a')
+                t = img_type4.text
+                img_type4.click()
+
+                save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
+                images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
+                create_folder_if_not_exists(save_path)
+                save_images(images,save_path)
+            except Exception as e2:
+                pass
+
+            try:
+                img_type5 = driver.find_element(by='xpath',value = '//*[@id="app-root"]/div/div/div/div[7]/div[2]/div/div/div/div/div[5]/a')
+                t = img_type5.text
+                img_type5.click()
+
+                save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
+                images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
+                create_folder_if_not_exists(save_path)
+                save_images(images,save_path)
+            except Exception as e2:
+                pass
+
 
             time.sleep(3)
 
@@ -133,7 +156,8 @@ def crawl_restaurant_image(restaurants):
         except Exception as e1:
             #print(e1)
             print(r + " 정보 없음")
-            #driver.switch_to.window(driver.window_handles[0]);
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0]);
             pass
 
 if __name__ == '__main__':
