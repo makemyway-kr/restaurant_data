@@ -46,7 +46,7 @@ def list_chunk(lst, n):
 
 def save_images(images, save_path):
     try:
-        for index, image in enumerate(images):
+        for index, image in enumerate(images[:10]):
             print(index)
             src = image.get_attribute('src')
             t = urlopen(src).read()
@@ -77,21 +77,30 @@ def crawl_restaurant_image(restaurants):
             search_box.send_keys(Keys.ENTER)
             driver.implicitly_wait(time_to_wait=2)
 
-            try:
-                #restaurantlist = driver.find_element(by=By.CLASS_NAME, value = "_3smbt")
-                driver.find_element(by=By.CLASS_NAME, value = "XNxh9").click()
-            except Exception as e2:
-                driver.find_element(by=By.CLASS_NAME, value = "_2opOK").click()
+            x=0
 
-            driver.switch_to.window(driver.window_handles[-1])
-            driver.switch_to.frame("entryIframe")
+            try:
+                driver.find_element(by=By.CLASS_NAME, value = "XNxh9").click()
+                driver.switch_to.window(driver.window_handles[-1])
+                driver.switch_to.frame("entryIframe")
+                x+=1
+            except Exception as e2:
+                pass
+
+            try:
+                driver.find_element(by=By.CLASS_NAME, value = "_2opOK").click()
+                driver.switch_to.window(driver.window_handles[-1])
+                driver.switch_to.frame("entryIframe")
+                x+=1
+            except Exception as e2:
+                pass
 
             try:
                 img_type1 = driver.find_element(by='xpath',value = '//*[@id="app-root"]/div/div/div/div[7]/div[2]/div/div/div/div/div[1]/a')
                 t = img_type1.text
                 img_type1.click()
 
-                save_path = "../restaurant_image/" + r[1] + '_' + str(r[0]) + "/" + t + "/"
+                save_path = "../restaurant_image/" + str(r[0]) + '_' + r[1] + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -103,7 +112,7 @@ def crawl_restaurant_image(restaurants):
                 t = img_type2.text
                 img_type2.click()
 
-                save_path = "../restaurant_image/" + r[1] + '_' + str(r[0]) + "/" + t + "/"
+                save_path = "../restaurant_image/" + str(r[0]) + '_' + r[1] + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -116,7 +125,7 @@ def crawl_restaurant_image(restaurants):
                 t = img_type3.text
                 img_type3.click()
 
-                save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
+                save_path = "../restaurant_image/" + str(r[0]) + '_' + r[1] + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -128,7 +137,7 @@ def crawl_restaurant_image(restaurants):
                 t = img_type4.text
                 img_type4.click()
 
-                save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
+                save_path = "../restaurant_image/" + str(r[0]) + '_' + r[1] + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
@@ -140,18 +149,15 @@ def crawl_restaurant_image(restaurants):
                 t = img_type5.text
                 img_type5.click()
 
-                save_path = "../restaurant_image/" + r[1] + "_" + str(r[0]) + "/" + t + "/"
+                save_path = "../restaurant_image/" + str(r[0]) + '_' + r[1] + "/" + t + "/"
                 images = driver.find_elements(by=By.CLASS_NAME, value = "_img")
                 create_folder_if_not_exists(save_path)
                 save_images(images,save_path)
             except Exception as e2:
                 pass
-
-
-            time.sleep(3)
-
-            driver.close()
-            driver.switch_to.window(driver.window_handles[0]);
+            if x==1:
+                driver.close()
+                driver.switch_to.window(driver.window_handles[0]);
 
         except Exception as e1:
             #print(e1)
@@ -162,7 +168,7 @@ def crawl_restaurant_image(restaurants):
 
 if __name__ == '__main__':
     restaurants = get_restaurant_info()
-    restaurants_chunked = list_chunk(restaurants,837)
+    restaurants_chunked = list_chunk(restaurants[2490:],7)
     start_time = time.time()
     f_list = ["서대문구레스토랑1.xlsx","서대문구레스토랑2.xlsx","서대문구레스토랑3.xlsx"]
     pool = multiprocessing.Pool(processes=3)
